@@ -43,7 +43,7 @@ Open http://localhost:5173
 Register; log out; log in; view all six templates; search/filter; open details; add favorite; verify My Favorites; remove favorite; confirm favorites remain after refresh; confirm `/favorites` redirects to login when signed out.
 
 ## Submission
-Create a public GitHub repository named `fullstack-intern-task`, push `client/`, `server/`, and this README. Do not commit `.env` or `node_modules`.
+Create a public GitHub repository named `Mini SaaS Template Store`, push `client/`, `server/`, and this README. Do not commit `.env` or `node_modules`.
 
 ## Author
-Replace this section with **your name, email address, and GitHub profile** before submission.
+Replace this section with **Visuvanathan K, vishwak2468@gmail.com, and https://github.com/Visuvanathan-K** before submission.
