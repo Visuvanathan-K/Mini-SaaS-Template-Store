@@ -1,0 +1,7 @@
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function issueToken(user){return jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'7d'});}
+export async function register(req,res,next){try{let {name,email,password}=req.body; if(typeof name!=='string'||typeof email!=='string'||typeof password!=='string'||!name.trim()||!emailPattern.test(email.trim())||password.length<8)return res.status(400).json({message:'Enter a name, valid email and password of at least 8 characters'});email=email.trim().toLowerCase();if(await User.exists({email}))return res.status(409).json({message:'Email already registered'});const user=await User.create({name:name.trim(),email,password:await bcrypt.hash(password,12)});res.status(201).json({token:issueToken(user),user:{id:user.id,name:user.name,email:user.email}});}catch(e){if(e.code===11000)return res.status(409).json({message:'Email already registered'});next(e);}}
+export async function login(req,res,next){try{const {email,password}=req.body;if(typeof email!=='string'||typeof password!=='string'||!emailPattern.test(email.trim())||!password)return res.status(400).json({message:'Valid email and password required'});const user=await User.findOne({email:email.trim().toLowerCase()});if(!user||!(await bcrypt.compare(password,user.password)))return res.status(401).json({message:'Invalid email or password'});res.json({token:issueToken(user),user:{id:user.id,name:user.name,email:user.email}});}catch(e){next(e);}}

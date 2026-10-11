@@ -1,0 +1,1 @@
+import {Router} from 'express';import {auth} from '../middleware/auth.js';import {listFavorites,addFavorite,removeFavorite} from '../controllers/favoriteController.js';const router=Router();router.use(auth);router.get('/',listFavorites);router.post('/:templateId',addFavorite);router.delete('/:templateId',removeFavorite);export default router;
